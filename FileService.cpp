@@ -19,12 +19,22 @@ FileService::~FileService() {
 
 }
 
+bool FileService::endswith(string str, string suffix) {
+  int pos = str.rfind(suffix);
+  return pos == (str.length() - suffix.length());
+}
+
 void FileService::get(HTTPRequest *request, HTTPResponse *response) {
   string path = "static" + request->getPath();
   string fileContents = this->readFile(path);
   if (fileContents.size() == 0) {
     response->setStatus(404);
   } else {
+    if (this->endswith(path, ".css")) {
+      response->setContentType("text/css");
+    } else if (this->endswith(path, ".js")) {
+      response->setContentType("text/javascript");
+    }
     response->setBody(fileContents);
   }
 }

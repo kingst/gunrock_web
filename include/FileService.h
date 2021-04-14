@@ -14,6 +14,7 @@ class FileService : public HttpService {
   virtual void head(HTTPRequest *request, HTTPResponse *response);
 
 private:
+  bool endswith(std::string str, std::string suffix);
   std::string readFile(std::string paht);
 };
 
