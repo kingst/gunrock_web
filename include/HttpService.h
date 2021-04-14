@@ -10,6 +10,7 @@
 class HttpService {
  public:
   HttpService(std::string pathPrefix);
+  std::string pathPrefix();
   virtual ~HttpService();
 
   virtual void head(HTTPRequest *request, HTTPResponse *response);

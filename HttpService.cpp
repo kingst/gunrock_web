@@ -15,6 +15,10 @@ HttpService::~HttpService() {
 
 }
 
+string HttpService::pathPrefix() {
+  return m_pathPrefix;
+}
+
 void HttpService::head(HTTPRequest *request, HTTPResponse *response) {
   cout << "HEAD " << request->getPath() << endl;
 }
