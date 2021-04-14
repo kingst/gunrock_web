@@ -1,3 +1,6 @@
+# our main executable
+gunrock_web
+
 # Prerequisites
 *.d
 
