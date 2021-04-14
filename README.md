@@ -26,6 +26,8 @@ $ # test out a POST, which isn't supported currently (405 status code)
 $ curl -v -X POST http://localhost:8080/hello_world.html
 ```
 
+We also included a full website that you can use for testing once you get multiple threads working. Try pointing your browser to: `http://localhost:8080/bootstrap.html`
+
 ## Command line arguments
 Coming soon!
 
