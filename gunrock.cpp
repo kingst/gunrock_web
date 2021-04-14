@@ -22,6 +22,34 @@ int PORT = 8080;
 
 vector<HttpService *> services;
 
+HttpService *find_service(HTTPRequest *request) {
+   // find a service that is registered for this path prefix
+  for (int idx = 0; idx < services.size(); idx++) {
+    if (request->getPath().find(services[idx]->pathPrefix()) == 0) {
+      return services[idx];
+    }
+  }
+
+  return NULL;
+}
+
+void invoke_service_method(HttpService *service, HTTPRequest *request, HTTPResponse *response) {
+  // invoke the service if we found one
+  if (service == NULL) {
+    // not found status
+    response->setStatus(404);
+  } else if (request->isHead()) {
+    cout << "HEAD " << request->getPath() << endl;
+    service->head(request, response);
+  } else if (request->isGet()) {
+    cout << "GET " << request->getPath() << endl;
+    service->get(request, response);
+  } else {
+    // not implemented status
+    response->setStatus(405);
+  }
+}
+
 void handle_request(MySocket *client) {
   while (true) {
     HTTPRequest *request = new HTTPRequest(client, PORT);
@@ -42,29 +70,8 @@ void handle_request(MySocket *client) {
       break;
     }
 
-    // find a service that is registered for this path prefix
-    HttpService *service = NULL;
-    for (int idx = 0; idx < services.size(); idx++) {
-      if (request->getPath().find(services[idx]->pathPrefix()) == 0) {
-	service = services[idx];
-	break;
-      }
-    }
-
-    // invoke the service if we found one
-    if (service == NULL) {
-      // not found status
-      response->setStatus(404);
-    } else if (request->isHead()) {
-      cout << "HEAD " << request->getPath() << endl;
-      service->head(request, response);
-    } else if (request->isGet()) {
-      cout << "GET " << request->getPath() << endl;
-      service->get(request, response);
-    } else {
-      // not implemented status
-      response->setStatus(405);
-    }
+    HttpService *service = find_service(request);
+    invoke_service_method(service, request, response);
 
     // send data back to the client and clean up
     cout << "RESPONSE " << response->getStatus() << endl;
