@@ -23,8 +23,7 @@ int PORT = 8080;
 vector<HttpService *> services;
 
 void handle_request(MySocket *client) {
-  bool requestActive = true;
-  while (requestActive) {
+  while (true) {
     HTTPRequest *request = new HTTPRequest(client, PORT);
     HTTPResponse *response = new HTTPResponse();
 
@@ -37,6 +36,7 @@ void handle_request(MySocket *client) {
     }    
     
     if (!readResult) {
+      // there was a problem reading in the request, bail
       delete response;
       delete request;
       break;
