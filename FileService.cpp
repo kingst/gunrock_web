@@ -48,6 +48,7 @@ string FileService::readFile(string path) {
 }
 
 void FileService::head(HTTPRequest *request, HTTPResponse *response) {
-  string path = request->getPath();
-  cout << "file service head path " << path << endl;
+  // HEAD is the same as get but with no body
+  this->get(request, response);
+  response->setBody("");
 }

@@ -18,6 +18,8 @@ $ # get a basic HTML file
 $ curl http://localhost:8080/hello_world.html
 $ # get a basic HTML file with more detailed information
 $ curl -v http://localhost:8080/hello_world.hml
+$ # head a basic HTML file
+$ curl --head http://localhost:8080/hello_world.html
 $ # test out a file that does not exist (404 status code)
 $ curl -v http://localhost:8080/hello_world2.html
 $ # test out a POST, which isn't supported currently (405 status code)
