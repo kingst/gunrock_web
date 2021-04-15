@@ -7,7 +7,7 @@
 
 class FileService : public HttpService {
  public:
-  FileService();
+  FileService(std::string basedir);
   virtual ~FileService();
 
   virtual void get(HTTPRequest *request, HTTPResponse *response);
@@ -15,7 +15,9 @@ class FileService : public HttpService {
 
 private:
   bool endswith(std::string str, std::string suffix);
-  std::string readFile(std::string paht);
+  std::string readFile(std::string path);
+
+  std::string m_basedir;
 };
 
 #endif

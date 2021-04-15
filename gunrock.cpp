@@ -19,8 +19,10 @@
 using namespace std;
 
 int PORT = 8080;
-int THREAD_POOL_SIZE =1;
+int THREAD_POOL_SIZE = 1;
 int BUFFER_SIZE = 1;
+string BASEDIR = "static";
+string SCHEDALG = "FIFO";
 
 vector<HttpService *> services;
 
@@ -95,28 +97,36 @@ int main(int argc, char *argv[]) {
   int option;
   string policy="";
 
-  while ((option = getopt(argc, argv, "p:t:b")) != -1)
-	  switch (option) {
-      case 'p':
-	      PORT = atoi(optarg);
-	      break;
-      case 't':
-	      THREAD_POOL_SIZE = atoi(optarg);
-	      break;
-      case 'b':
-	      BUFFER_SIZE = atoi(optarg);
-	      break;
-	    default:
-	      cerr<< "usage: wserver [-d basedir] [-p port]\n";
-	      exit(1);
-	  }
+  while ((option = getopt(argc, argv, "d:p:t:b:s:")) != -1) {
+    switch (option) {
+    case 'd':
+      BASEDIR = string(optarg);
+      break;
+    case 'p':
+      PORT = atoi(optarg);
+      break;
+    case 't':
+      THREAD_POOL_SIZE = atoi(optarg);
+      break;
+    case 'b':
+      BUFFER_SIZE = atoi(optarg);
+      break;
+    case 's':
+      SCHEDALG = string(optarg);
+      break;
+    default:
+      cerr<< "usage: " << argv[0] << " [-d basedir] [-p port] [-t threads] [-b buffers] [-s schedalg]" << endl;
+      exit(1);
+    }
+  }
   
   MyServerSocket *server = new MyServerSocket(PORT);
   MySocket *client;
 
-  services.push_back(new FileService());
+  services.push_back(new FileService(BASEDIR));
   
   while(true) {
+    cout << "listening for new connections on " << PORT << endl;
     client = server->accept();
     handle_request(client);
   }
