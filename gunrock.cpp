@@ -96,7 +96,7 @@ int main(int argc, char *argv[]) {
 
   while ((option = getopt(argc, argv, "p:t:b")) != -1)
 	  switch (option) {
-	    case 'p':
+      case 'p':
 	      PORT = atoi(optarg);
 	      break;
       case 't':
