@@ -95,7 +95,6 @@ int main(int argc, char *argv[]) {
 
   signal(SIGPIPE, SIG_IGN);
   int option;
-  string policy="";
 
   while ((option = getopt(argc, argv, "d:p:t:b:s:")) != -1) {
     switch (option) {
