@@ -29,7 +29,37 @@ $ curl -v -X POST http://localhost:8080/hello_world.html
 We also included a full website that you can use for testing once you get multiple threads working. Try pointing your browser to: `http://localhost:8080/bootstrap.html`
 
 ## Command line arguments
-Coming soon!
+Your C++ program must be invoked exactly as follows:
+
+```bash
+$ ./gunrock_web [-d basedir] [-p port] [-t threads] [-b buffers] [-s schedalg]
+```
+
+The command line arguments to your web server are to be interpreted as
+follows.
+
+- **basedir**: this is the root directory from which the web server should
+  operate. The server should try to ensure that file accesses do not access
+  files above this directory in the file-system hierarchy. Default: current
+  working directory (e.g., `.`).
+- **port**: the port number that the web server should listen on; the basic web
+  server already handles this argument. Default: 10000.
+- **threads**: the number of worker threads that should be created within the web
+  server. Must be a positive integer. Default: 1.
+- **buffers**: the number of request connections that can be accepted at one
+  time. Must be a positive integer. Note that it is not an error for more or
+  less threads to be created than buffers. Default: 1.
+- **schedalg**: the scheduling algorithm to be performed. Must be one of FIFO
+  or SFF. Default: FIFO.
+
+For example, you could run your program as:
+```
+$ ./gunrock_web -d static -p 8003 -t 8 -b 16 -s SFF
+```
+
+In this case, your web server will listen to port 8003, create 8 worker threads for
+handling HTTP requests, allocate 16 buffers for connections that are currently
+in progress (or waiting), and use SFF scheduling for arriving requests.
 
 ## Key concepts
 The main idea behind this server is to make adding handlers as easy as writing a function. The `FileService.cpp` is a simple service that will read a file from the `static` directory and serve it back to the client as HTML. If you want to write new handlers, you'd do it by adding the new service and inheriting from `HttpService`, adding your source file to the `Makefile` and registering your service with the main `gunrock.cpp` file as a new service.
@@ -42,12 +72,12 @@ From within the service, you set the body of the request, or if there is an erro
 To make this server multithreaded, you're going to need to modify the main `gunrock.cpp` file. You'll need to modify this file so that client requests are handled by a pool of threads with some priority logic to handle high priority files first. See the project README for more details.
 
 ## Other files
-- *FileService* - Main file service, where the application logic for reading files goes
-- *HTTP* - Higher level HTTP object, interfaces with the `http_parser`
-- *http_parser* - HTTP protocol parsing state machine and callback functionality
-- *HTTPRequest* - The HTTP request object, this is filled in by the framework
-- *HTTPResponse* - The HTTP response object, the data for the response is filled in by the service
-- *HttpUtils* - Simple utility functions for working with HTTP data
-- *MyServerSocket* - High level abstraction on top of server sockets, accepts connections from new clients
-- *MySocket* - High level abstraction on top of sockets, used by the framework to read requests and write responses
-- *gunrock* - The main function + basic request handling
+- **FileService** - Main file service, where the application logic for reading files goes
+- **HTTP** - Higher level HTTP object, interfaces with the `http_parser`
+- **http_parser** - HTTP protocol parsing state machine and callback functionality
+- **HTTPRequest** - The HTTP request object, this is filled in by the framework
+- **HTTPResponse** - The HTTP response object, the data for the response is filled in by the service
+- **HttpUtils** - Simple utility functions for working with HTTP data
+- **MyServerSocket** - High level abstraction on top of server sockets, accepts connections from new clients
+- **MySocket** - High level abstraction on top of sockets, used by the framework to read requests and write responses
+- **gunrock** - The main function + basic request handling
