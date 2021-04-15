@@ -19,12 +19,14 @@
 using namespace std;
 
 int PORT = 8080;
+int THREAD_POOL_SIZE =1;
+int BUFFER_SIZE = 1;
 
 vector<HttpService *> services;
 
 HttpService *find_service(HTTPRequest *request) {
    // find a service that is registered for this path prefix
-  for (int idx = 0; idx < services.size(); idx++) {
+  for (unsigned int idx = 0; idx < services.size(); idx++) {
     if (request->getPath().find(services[idx]->pathPrefix()) == 0) {
       return services[idx];
     }
@@ -32,6 +34,7 @@ HttpService *find_service(HTTPRequest *request) {
 
   return NULL;
 }
+
 
 void invoke_service_method(HttpService *service, HTTPRequest *request, HTTPResponse *response) {
   // invoke the service if we found one
@@ -86,10 +89,28 @@ void handle_request(MySocket *client) {
   delete client;
 }
 
-int main(int /*argc*/, char */*argv*/[]) {
+int main(int argc, char *argv[]) {
 
   signal(SIGPIPE, SIG_IGN);
+  int option;
+  string policy="";
 
+  while ((option = getopt(argc, argv, "p:t:b")) != -1)
+	  switch (option) {
+      case 'p':
+	      PORT = atoi(optarg);
+	      break;
+      case 't':
+	      THREAD_POOL_SIZE = atoi(optarg);
+	      break;
+      case 'b':
+	      BUFFER_SIZE = atoi(optarg);
+	      break;
+	    default:
+	      cerr<< "usage: wserver [-d basedir] [-p port]\n";
+	      exit(1);
+	  }
+  
   MyServerSocket *server = new MyServerSocket(PORT);
   MySocket *client;
 
