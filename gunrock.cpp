@@ -55,36 +55,39 @@ void invoke_service_method(HttpService *service, HTTPRequest *request, HTTPRespo
   }
 }
 
+/**
+ * Note: in a real web server you wouldn't close the connection
+ * after reading a single request but to keep the queuing logic
+ * simple we'll do it this way.
+ */
 void handle_request(MySocket *client) {
-  while (true) {
-    HTTPRequest *request = new HTTPRequest(client, PORT);
-    HTTPResponse *response = new HTTPResponse();
+  HTTPRequest *request = new HTTPRequest(client, PORT);
+  HTTPResponse *response = new HTTPResponse();
 
-    // read in the request
-    bool readResult = false;
-    try {
-      readResult = request->readRequest();
-    } catch (...) {
-      // swallow it
-    }    
+  // read in the request
+  bool readResult = false;
+  try {
+    readResult = request->readRequest();
+  } catch (...) {
+    // swallow it
+  }    
     
-    if (!readResult) {
-      // there was a problem reading in the request, bail
-      delete response;
-      delete request;
-      break;
-    }
-
-    HttpService *service = find_service(request);
-    invoke_service_method(service, request, response);
-
-    // send data back to the client and clean up
-    cout << "RESPONSE " << response->getStatus() << endl;
-    client->write(response->response());
-    
+  if (!readResult) {
+    // there was a problem reading in the request, bail
     delete response;
     delete request;
+    return;
   }
+
+  HttpService *service = find_service(request);
+  invoke_service_method(service, request, response);
+
+  // send data back to the client and clean up
+  cout << "RESPONSE " << response->getStatus() << endl;
+  client->write(response->response());
+    
+  delete response;
+  delete request;
 
   cout << "closing connection" << endl;
   client->close();
