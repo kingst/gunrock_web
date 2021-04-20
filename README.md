@@ -1,5 +1,5 @@
 # Gunrock Web Server
-This web server is a simple server used in ECS 150 for teaching about multi-threaded programming and operating systems. This version of the server can only handle one client at a time and simply serves static files.
+This web server is a simple server used in ECS 150 for teaching about multi-threaded programming and operating systems. This version of the server can only handle one client at a time and simply serves static files. Also, it will close each connection after reading the request and responding, but generally is still HTTP 1.1 compliant.
 
 This server was written by Sam King from UC Davis and is actively maintained by Sam as well. The `http_parse.c` file was written by [Ryan Dahl](https://github.com/ry) and is licensed under the BSD license by Ryan.
 
@@ -26,13 +26,13 @@ $ # test out a POST, which isn't supported currently (405 status code)
 $ curl -v -X POST http://localhost:8080/hello_world.html
 ```
 
-We also included a full website that you can use for testing once you get multiple threads working. Try pointing your browser to: `http://localhost:8080/bootstrap.html`
+We also included a full website that you can use for testing, try pointing your browser to: `http://localhost:8080/bootstrap.html`
 
 ## Command line arguments
 Your C++ program must be invoked exactly as follows:
 
 ```bash
-$ ./gunrock_web [-d basedir] [-p port] [-t threads] [-b buffers] [-s schedalg]
+$ ./gunrock_web [-d basedir] [-p port] [-t threads] [-b buffers]
 ```
 
 The command line arguments to your web server are to be interpreted as
@@ -49,12 +49,10 @@ follows.
 - **buffers**: the number of request connections that can be accepted at one
   time. Must be a positive integer. Note that it is not an error for more or
   less threads to be created than buffers. Default: 1.
-- **schedalg**: the scheduling algorithm to be performed. Must be one of FIFO
-  or SFF. Default: FIFO.
 
 For example, you could run your program as:
 ```
-$ ./gunrock_web -d static -p 8003 -t 8 -b 16 -s SFF
+$ ./gunrock_web -d static -p 8003 -t 8 -b 16
 ```
 
 In this case, your web server will listen to port 8003, create 8 worker threads for
