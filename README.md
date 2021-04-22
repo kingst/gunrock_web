@@ -302,6 +302,21 @@ To match services to requests, the main `gunrock.cpp` logic tries to find the fi
 
 From within the service, you set the body of the request, or if there is an error you set the appropriate status code in the response object.
 
+## Thread functions
+
+We created a pthread replacement library, called `dthread`, that you must
+use for this project. `dthread` logs information about your use of threads,
+mutexes, and condition variables so that we can grade your project.
+
+We anticipate that you will find the following routines useful for creating
+and synchronizing threads: `dthread_create()`, `dthread_detach`,
+`dthread_mutex_lock()`, `dthread_mutex_unlock()`,
+`dthread_cond_wait()`, `dthread_cond_signal()`. To find information on these
+library routines, read the man pages for the pthread version of these same
+routines. To initialize your mutex and condition variables, assign them
+to the `PTHREAD_MUTEX_INITIALIZER` and `PTHREAD_COND_INITIALIZER` macros
+and you'll get initialized mutex and conidition variables.
+
 ## Key files
 To make this server multithreaded, you're going to need to modify the main `gunrock.cpp` file and potentially `FileService.cpp`. You'll need to modify these files so that client requests are handled by a pool of threads with some priority logic to handle high priority files first. See the project README for more details.
 
