@@ -308,6 +308,7 @@ To make this server multithreaded, you're going to need to modify the main `gunr
 ## Other files
 - **gunrock** - The main function + basic request handling
 - **FileService** - Main file service, where the application logic for reading files goes
+- **dthread** -- The main threading utilities, use the functions in this file for your threads
 - **HTTP** - Higher level HTTP object, interfaces with the `http_parser`
 - **http_parser** - HTTP protocol parsing state machine and callback functionality
 - **HTTPRequest** - The HTTP request object, this is filled in by the framework
