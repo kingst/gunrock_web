@@ -279,7 +279,7 @@ The command line arguments to your web server are to be interpreted as
 follows.
 
 - **port**: the port number that the web server should listen on; the basic web
-  server already handles this argument. Default: 10000.
+  server already handles this argument. Default: 8080.
 - **threads**: the number of worker threads that should be created within the web
   server. Must be a positive integer. Default: 1.
 - **buffers**: the number of request connections that can be accepted at one
