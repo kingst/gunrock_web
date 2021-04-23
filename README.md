@@ -17,7 +17,7 @@ To test it out, you can either open up a web browser on the same machine and giv
 $ # get a basic HTML file
 $ curl http://localhost:8080/hello_world.html
 $ # get a basic HTML file with more detailed information
-$ curl -v http://localhost:8080/hello_world.hml
+$ curl -v http://localhost:8080/hello_world.html
 $ # head a basic HTML file
 $ curl --head http://localhost:8080/hello_world.html
 $ # test out a file that does not exist (404 status code)
