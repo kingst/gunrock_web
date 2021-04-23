@@ -29,7 +29,7 @@ void sync_print(std::string function, std::string payload) {
   // search through our thread list to find this thread
   pthread_t self = pthread_self();
   int tid = -1;
-  for (int idx = 0; idx < thread_list.size(); idx++) {
+  for (size_t idx = 0; idx < thread_list.size(); idx++) {
     if (pthread_equal(self, thread_list[idx])) {
       tid = idx;
       break;
@@ -46,7 +46,7 @@ void sync_print(std::string function, std::string payload) {
   write_stream << function << " thread: " << tid << " " << payload << std::endl;
   std::string write_buffer = write_stream.str();
   ret = write(logFd, write_buffer.c_str(), write_buffer.length());
-  if (ret != write_buffer.length()) {
+  if (ret >= 0 && (size_t) ret != write_buffer.length()) {
     std::cerr << "log file write error, ret = " << ret << " expected " << write_buffer.length() << std::endl;
     exit(1);
   }
