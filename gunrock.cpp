@@ -7,6 +7,8 @@
 #include <memory>
 #include <string>
 #include <vector>
+#include <sstream>
+#include <deque>
 
 #include "HTTPRequest.h"
 #include "HTTPResponse.h"
@@ -15,6 +17,7 @@
 #include "FileService.h"
 #include "MySocket.h"
 #include "MyServerSocket.h"
+#include "dthread.h"
 
 using namespace std;
 
@@ -23,6 +26,7 @@ int THREAD_POOL_SIZE = 1;
 int BUFFER_SIZE = 1;
 string BASEDIR = "static";
 string SCHEDALG = "FIFO";
+string LOGFILE = "/dev/null";
 
 vector<HttpService *> services;
 
@@ -39,15 +43,21 @@ HttpService *find_service(HTTPRequest *request) {
 
 
 void invoke_service_method(HttpService *service, HTTPRequest *request, HTTPResponse *response) {
+  stringstream payload;
+  
   // invoke the service if we found one
   if (service == NULL) {
     // not found status
     response->setStatus(404);
   } else if (request->isHead()) {
-    cout << "HEAD " << request->getPath() << endl;
+    payload << "HEAD " << request->getPath();
+    sync_print("invoke_service_method", payload.str());
+    cout << payload.str() << endl;
     service->head(request, response);
   } else if (request->isGet()) {
-    cout << "GET " << request->getPath() << endl;
+    payload << "GET " << request->getPath();
+    sync_print("invoke_service_method", payload.str());
+    cout << payload.str() << endl;
     service->get(request, response);
   } else {
     // not implemented status
@@ -55,19 +65,18 @@ void invoke_service_method(HttpService *service, HTTPRequest *request, HTTPRespo
   }
 }
 
-/**
- * Note: in a real web server you wouldn't close the connection
- * after reading a single request but to keep the queuing logic
- * simple we'll do it this way.
- */
 void handle_request(MySocket *client) {
   HTTPRequest *request = new HTTPRequest(client, PORT);
   HTTPResponse *response = new HTTPResponse();
-
+  stringstream payload;
+  
   // read in the request
   bool readResult = false;
   try {
+    payload << "client: " << (void *) client;
+    sync_print("read_request_enter", payload.str());
     readResult = request->readRequest();
+    sync_print("read_request_return", payload.str());
   } catch (...) {
     // swallow it
   }    
@@ -76,20 +85,26 @@ void handle_request(MySocket *client) {
     // there was a problem reading in the request, bail
     delete response;
     delete request;
+    sync_print("read_request_error", payload.str());
     return;
   }
-
+  
   HttpService *service = find_service(request);
   invoke_service_method(service, request, response);
 
   // send data back to the client and clean up
-  cout << "RESPONSE " << response->getStatus() << endl;
+  payload.str(""); payload.clear();
+  payload << " RESPONSE " << response->getStatus() << " client: " << (void *) client;
+  sync_print("write_response", payload.str());
+  cout << payload.str() << endl;
   client->write(response->response());
     
   delete response;
   delete request;
 
-  cout << "closing connection" << endl;
+  payload.str(""); payload.clear();
+  payload << " client: " << (void *) client;
+  sync_print("close_connection", payload.str());
   client->close();
   delete client;
 }
@@ -99,7 +114,7 @@ int main(int argc, char *argv[]) {
   signal(SIGPIPE, SIG_IGN);
   int option;
 
-  while ((option = getopt(argc, argv, "d:p:t:b:s:")) != -1) {
+  while ((option = getopt(argc, argv, "d:p:t:b:s:l:")) != -1) {
     switch (option) {
     case 'd':
       BASEDIR = string(optarg);
@@ -116,20 +131,27 @@ int main(int argc, char *argv[]) {
     case 's':
       SCHEDALG = string(optarg);
       break;
+    case 'l':
+      LOGFILE = string(optarg);
+      break;
     default:
-      cerr<< "usage: " << argv[0] << " [-d basedir] [-p port] [-t threads] [-b buffers] [-s schedalg]" << endl;
+      cerr<< "usage: " << argv[0] << " [-p port] [-t threads] [-b buffers]" << endl;
       exit(1);
     }
   }
-  
+
+  set_log_file(LOGFILE);
+
+  sync_print("init", "");
   MyServerSocket *server = new MyServerSocket(PORT);
   MySocket *client;
 
   services.push_back(new FileService(BASEDIR));
   
   while(true) {
-    cout << "listening for new connections on " << PORT << endl;
+    sync_print("waiting_to_accept", "");
     client = server->accept();
+    sync_print("client_accepted", "");
     handle_request(client);
   }
 }
