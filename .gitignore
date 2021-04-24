@@ -33,3 +33,8 @@ gunrock_web
 *.exe
 *.out
 *.app
+
+# editor setting files
+.vscode
+playground
+
