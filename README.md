@@ -68,7 +68,7 @@ responds with the requested content and closes the connection. The browser
 reads the content and displays it on the screen.
 
 HTTP is built on top of the **TCP/IP** protocol suite provided by the
-operating system. Together, TPC and IP ensure that messages are routed to
+operating system. Together, TCP and IP ensure that messages are routed to
 their correct destination, get from source to destination reliably in the face
 of failure, and do not overly congest the network by sending too many messages
 at once, among other features. To learn more about networks, take a networking
