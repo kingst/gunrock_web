@@ -292,8 +292,8 @@ $ ./gunrock_web -p 8003 -t 8 -b 16
 ```
 
 In this case, your web server will listen to port 8003, create 8 worker threads for
-handling HTTP requests, allocate 16 buffers for connections that are currently
-in progress (or waiting), and use SFF scheduling for arriving requests.
+handling HTTP requests, and allocate 16 buffers for connections that are currently
+in progress (or waiting).
 
 ## Key concepts
 The main idea behind this server is to make adding handlers as easy as writing a function. The `FileService.cpp` is a simple service that will read a file from the `static` directory and serve it back to the client as HTML. If you want to write new handlers, you'd do it by adding the new service and inheriting from `HttpService`, adding your source file to the `Makefile` and registering your service with the main `gunrock.cpp` file as a new service.
