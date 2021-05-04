@@ -49,6 +49,8 @@ void FileService::get(HTTPRequest *request, HTTPResponse *response) {
 }
 
 string FileService::readFile(string path) {
+    // Reject paths with ".." to avoid
+    // traversals up the file system tree
     for (size_t i = 0; i < path.length() - 1; i++) {
         if (path[i] == '.') {
             i++;
