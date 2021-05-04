@@ -114,17 +114,23 @@ void handle_request(MySocket *client) {
     delete client;
 }
 
-// worker thread / consumer
-// 
+// Worker thread / Consumer
+// Calls handle request
 void *worker_thread(void *arg) {
     while (1) {
+        // Attempt to get lock
         dthread_mutex_lock(&httpLock);
+        // Block while no requests in buffer
         while (buffer.empty()) {
             dthread_cond_wait(&notEmpty, &httpLock);
         }
         MySocket *tempClient = buffer.front();
         buffer.pop_front();
+        // Signal in case producer is waiting for space in buffer
         dthread_cond_signal(&hasSpace);
+        // Unlock so that handle_request is outside of lock
+        // Don't want to hold lock for too long
+        // shared variables are accounted for
         dthread_mutex_unlock(&httpLock);
         handle_request(tempClient);
     }
@@ -174,6 +180,7 @@ int main(int argc, char *argv[]) {
     // array of threads
     pthread_t p[THREAD_POOL_SIZE];
     
+    // Create pool of worker threads
     for (int i = 0; i < THREAD_POOL_SIZE; i++) {
         int temp = dthread_create(&p[i], NULL, &worker_thread, NULL);
         if (temp != 0) {
@@ -181,15 +188,19 @@ int main(int argc, char *argv[]) {
         }
     }
     
+    // Master thread / Producer
     while(true) {
         sync_print("waiting_to_accept", "");
         client = server->accept();
         sync_print("client_accepted", "");
+        // Lock before checking shared buffer
         dthread_mutex_lock(&httpLock);
+        // Block while buffer is full
         while (static_cast<int>(buffer.size()) == BUFFER_SIZE) {
             dthread_cond_wait(&hasSpace, &httpLock);
         }
         buffer.push_back(client);
+        // Signal in case consumer is waiting for something in buffer
         dthread_cond_signal(&notEmpty);
         dthread_mutex_unlock(&httpLock);
     }
