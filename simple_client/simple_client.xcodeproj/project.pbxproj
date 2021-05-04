@@ -1,0 +1,149 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXFileReference section */
+		27688E8C2640DE490041140B /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
+		27688E8D2640DE490041140B /* include */ = {isa = PBXFileReference; lastKnownFileType = folder; path = include; sourceTree = "<group>"; };
+		27688E8E2640DE490041140B /* MySocket.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = MySocket.cpp; sourceTree = "<group>"; };
+		27688E8F2640DE490041140B /* HTTPResponse.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = HTTPResponse.cpp; sourceTree = "<group>"; };
+		27688E902640DE490041140B /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
+		27688E912640DE490041140B /* test1.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = test1.cpp; sourceTree = "<group>"; };
+		27688E922640DE490041140B /* HttpClient.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = HttpClient.cpp; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		27688E862640DE490041140B = {
+			isa = PBXGroup;
+			children = (
+				27688E8C2640DE490041140B /* Makefile */,
+				27688E8D2640DE490041140B /* include */,
+				27688E8E2640DE490041140B /* MySocket.cpp */,
+				27688E8F2640DE490041140B /* HTTPResponse.cpp */,
+				27688E902640DE490041140B /* .gitignore */,
+				27688E912640DE490041140B /* test1.cpp */,
+				27688E922640DE490041140B /* HttpClient.cpp */,
+			);
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXLegacyTarget section */
+		27688E8B2640DE490041140B /* simple_client */ = {
+			isa = PBXLegacyTarget;
+			buildArgumentsString = "$(ACTION)";
+			buildConfigurationList = 27688E932640DE490041140B /* Build configuration list for PBXLegacyTarget "simple_client" */;
+			buildPhases = (
+			);
+			buildToolPath = /usr/bin/make;
+			buildWorkingDirectory = "/Users/kyle/Desktop/School/ECS 150/project3/gunrock_web/gunrock_web/simple_client";
+			dependencies = (
+			);
+			name = simple_client;
+			passBuildSettingsInEnvironment = 1;
+			productName = simple_client;
+		};
+/* End PBXLegacyTarget section */
+
+/* Begin PBXProject section */
+		27688E872640DE490041140B /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+			};
+			buildConfigurationList = 27688E8A2640DE490041140B /* Build configuration list for PBXProject "simple_client" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 27688E862640DE490041140B;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				27688E8B2640DE490041140B /* simple_client */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin XCBuildConfiguration section */
+		27688E882640DE490041140B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				COPY_PHASE_STRIP = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx10.6;
+			};
+			name = Debug;
+		};
+		27688E892640DE490041140B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				COPY_PHASE_STRIP = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				SDKROOT = macosx10.6;
+			};
+			name = Release;
+		};
+		27688E942640DE490041140B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				DEBUGGING_SYMBOLS = YES;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = simple_client;
+			};
+			name = Debug;
+		};
+		27688E952640DE490041140B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = simple_client;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		27688E8A2640DE490041140B /* Build configuration list for PBXProject "simple_client" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				27688E882640DE490041140B /* Debug */,
+				27688E892640DE490041140B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		27688E932640DE490041140B /* Build configuration list for PBXLegacyTarget "simple_client" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				27688E942640DE490041140B /* Debug */,
+				27688E952640DE490041140B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 27688E872640DE490041140B /* Project object */;
+}
