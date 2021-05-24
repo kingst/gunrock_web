@@ -82,7 +82,7 @@ things simple.
 ### POST `/auth-tokens`
 
 If the username doesn't exist this call will create a new user, and if
-it does exist then it logs in the user if the pasword matches.
+it does exist then it logs in the user if the password matches.
 
 _Note:_ This API call is the only API call where the user does _not_
 need to be authenticated.
