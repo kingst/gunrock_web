@@ -9,6 +9,13 @@
 
 using namespace std;
 
+/**
+ * TODOs:
+ *  - HTTPS
+ *  - DNS for IP6
+ *  - DNS loop all results
+ */
+
 MySocket::MySocket(const char *inetAddr, int port) {
     struct sockaddr_in server;
     struct addrinfo hints;
