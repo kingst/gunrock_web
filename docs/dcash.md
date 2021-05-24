@@ -44,6 +44,26 @@ users and their balances, enable users to transfer cash to each other,
 and issue credit card charges using Stripe to deposit money into a
 user's account.
 
+Detailed documentation:
+- [API specification](dcash/api.md)
+- [Server architecture](dcash/api_server.md)
+
 ## Part 2: Interacting with Stripe
 
+We use Stripe to charge credit cards in order to deposit funds into a
+`dcash` account. The Stripe integration includes API calls that you
+will make to Stripe both from the `dcash` wallet as well as the
+`gunrock` server.
+
+[Detailed documentation](dcash/stripe.md)
+
 ## Part 3: The dcash wallet
+
+To interface directly with `dcash` users, you will write a
+command-line program to accept inputs from users directly, show them
+output, and interact with the Stripe and the `gunrock` servers via
+APIs.
+
+Detailed documentation:
+- [API specification](dcash/api.md)
+- [Wallet architecture](dcash/wallet.md)

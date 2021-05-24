@@ -388,7 +388,7 @@ void HTTP::appendHeaderValue(const char *at, size_t len)
 void HTTP::messageComplete(unsigned char method)
 {
     if(m_httpType == HTTP_REQUEST) {
-        assert((method == HTTP_GET) || (method == HTTP_CONNECT) || (method == HTTP_POST) || (method == HTTP_HEAD));
+      assert((method == HTTP_GET) || (method == HTTP_CONNECT) || (method == HTTP_POST) || (method == HTTP_HEAD) || (method == HTTP_PUT) || (method == HTTP_DELETE));
         m_method = method;
     }
     m_doneParsing = true;

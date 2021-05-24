@@ -8,7 +8,6 @@
 class FileService : public HttpService {
  public:
   FileService(std::string basedir);
-  virtual ~FileService();
 
   virtual void get(HTTPRequest *request, HTTPResponse *response);
   virtual void head(HTTPRequest *request, HTTPResponse *response);

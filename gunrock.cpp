@@ -10,11 +10,16 @@
 #include <sstream>
 #include <deque>
 
+#include "ClientError.h"
 #include "HTTPRequest.h"
 #include "HTTPResponse.h"
 #include "HttpService.h"
 #include "HttpUtils.h"
+#include "AccountService.h"
+#include "AuthService.h"
+#include "DepositService.h"
 #include "FileService.h"
+#include "TransferService.h"
 #include "MySocket.h"
 #include "MyServerSocket.h"
 #include "dthread.h"
@@ -44,24 +49,32 @@ HttpService *find_service(HTTPRequest *request) {
 
 void invoke_service_method(HttpService *service, HTTPRequest *request, HTTPResponse *response) {
   stringstream payload;
-  
-  // invoke the service if we found one
-  if (service == NULL) {
-    // not found status
-    response->setStatus(404);
-  } else if (request->isHead()) {
-    payload << "HEAD " << request->getPath();
-    sync_print("invoke_service_method", payload.str());
-    cout << payload.str() << endl;
-    service->head(request, response);
-  } else if (request->isGet()) {
-    payload << "GET " << request->getPath();
-    sync_print("invoke_service_method", payload.str());
-    cout << payload.str() << endl;
-    service->get(request, response);
-  } else {
-    // not implemented status
-    response->setStatus(405);
+
+  try {
+    // invoke the service if we found one
+    if (service == NULL) {
+      // not found status
+      response->setStatus(404);
+    } else if (request->isHead()) {
+      service->head(request, response);
+    } else if (request->isGet()) {
+      service->get(request, response);
+    } else if (request->isPut()) {
+      service->put(request, response);
+    } else if (request->isPost()) {
+      service->post(request, response);
+    } else if (request->isDelete()) {
+      service->del(request, response);
+    } else {
+      // The server doesn't know about this method
+      response->setStatus(501);
+    }
+  } catch (ClientError ce) {
+    response->setStatus(ce.status_code);
+  } catch (...) {
+    // reset the response object and return an error
+    response->setBody("");
+    response->setStatus(500);
   }
 }
 
@@ -146,7 +159,21 @@ int main(int argc, char *argv[]) {
   MyServerSocket *server = new MyServerSocket(PORT);
   MySocket *client;
 
+  // The order that you push services dictates the search order
+  // for path prefix matching
+  services.push_back(new AuthService());
+  services.push_back(new TransferService());
+  services.push_back(new DepositService());
+  services.push_back(new AccountService());
   services.push_back(new FileService(BASEDIR));
+
+  // Make sure that all services have a pointer to the
+  // database object singleton
+  Database *db = new Database();
+  vector<HttpService *>::iterator iter;
+  for (iter = services.begin(); iter != services.end(); iter++) {
+    (*iter)->m_db = db;
+  }
   
   while(true) {
     sync_print("waiting_to_accept", "");

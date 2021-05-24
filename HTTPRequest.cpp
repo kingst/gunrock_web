@@ -7,6 +7,7 @@
 #include <errno.h>
 
 #include "HttpUtils.h"
+#include "StringUtils.h"
 
 using namespace std;
 
@@ -38,8 +39,47 @@ map<string, string> HTTPRequest::getParams() {
   return HttpUtils::params(m_http->getQuery());
 }
 
+WwwFormEncodedDict HTTPRequest::formEncodedBody() {
+  WwwFormEncodedDict dict(m_http->getBody());
+  return dict;
+}
+
 string HTTPRequest::getPath() {
   return m_http->getPath();
+}
+
+string HTTPRequest::getHeader(string key) {
+  vector<pair<string *, string *> >::iterator iter;
+  vector<pair<string *, string *> > headers = m_http->getHeaders();
+  for (iter = headers.begin(); iter != headers.end(); iter++) {
+    string header_key = *(iter->first);
+    if (header_key == key) {
+      return *(iter->second);
+    }
+  }
+
+  throw "could not find header";
+}
+
+bool HTTPRequest::hasAuthToken() {
+  try {
+    getHeader("x-auth-token");
+    return true;
+  } catch (...) {
+    return false;
+  }
+}
+
+string HTTPRequest::getAuthToken() {
+  try {
+    return getHeader("x-auth-token");
+  } catch (...) {
+    return "";
+  }
+}
+
+vector<string> HTTPRequest::getPathComponents() {
+  return StringUtils::split(getPath(), '/');
 }
 
 bool HTTPRequest::readRequest()
