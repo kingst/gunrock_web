@@ -60,7 +60,7 @@ key`:
 
 ```c++
 // from the dcash wallet to Stripe
-publishable_key = "pk_test_YOUR_KEY";
+string publishable_key = "pk_test_YOUR_KEY";
 HttpClient client("api.stripe.com", 443, true);
 client.set_header("Authorization", string("Bearer ") + publishable_key);
 ```
@@ -77,7 +77,7 @@ the implementation details of basic authentication:
 
 ```c++
 // from the gunrock server to Stripe
-secret_key = "sk_test_YOUR_KEY";
+string secret_key = "sk_test_YOUR_KEY";
 HttpClient client("api.stripe.com", 443, true);
 client.set_basic_auth(secret_key, "");
 ```
