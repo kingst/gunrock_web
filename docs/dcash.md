@@ -55,7 +55,8 @@ We use Stripe to charge credit cards in order to deposit funds into a
 will make to Stripe both from the `dcash` wallet as well as the
 `gunrock` server.
 
-[Detailed documentation](dcash/stripe.md)
+Detailed documentation:
+- [Using Stripe](dcash/stripe.md)
 
 ## Part 3: The dcash wallet
 
