@@ -67,6 +67,7 @@ specification](api.md) outlines the details of each of the methods
 that you're responsible for implementing.
 
 For these services, you must implement the base-class method `User *HttpService::getAuthenticatedUser(HTTPRequest *)`
+and use this method for all of your API calls that require authentication.
 
 ## Helpful utilities
 
