@@ -11,6 +11,30 @@ of four commands:
 | send    | Sends money to another user                                   |
 | logout  | Deletes the auth token and exits the program                  | 
 
+## Invoking the dcash process
+
+The wallet can be invoked with either no arguments or a single argument;
+anything else is an error. Here is the no-argument way:
+
+```bash
+prompt> ./dcash
+D$ 
+```
+
+At this point, dcash is running, and ready to accept commands. Type away!
+
+The mode above is called interactive mode, and allows the user to type
+commands directly. The shell also supports a batch mode, which instead
+reads input from a batch file and executes commands from therein. Here is
+how you run the wallet with a batch file named batch.txt:
+
+```bash
+prompt> ./dcash batch.txt
+```
+
+One difference between batch and interactive modes: in interactive mode,
+a prompt is printed (D$). In batch mode, no prompt should be printed.
+
 ## Command and API errors
 
 From the wallet the only error checking we do is to make sure that the
