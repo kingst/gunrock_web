@@ -11,6 +11,12 @@ of four commands:
 | send    | Sends money to another user                                   |
 | logout  | Deletes the auth token and exits the program                  | 
 
+Conceptually, you should view the wallet application as a thin UI layer for
+the API server. The only state that wallet needs to store across commands
+is the `auth_token` and the `user_id` that the `/auth-tokens` endpoint
+returns after a successfull authentication. Other than that, all data should
+be fetched from the server.
+
 ## Invoking the dcash program
 
 The wallet can be invoked with either no arguments or a single argument;
