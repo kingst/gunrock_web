@@ -69,7 +69,7 @@ void invoke_service_method(HttpService *service, HTTPRequest *request, HTTPRespo
       // The server doesn't know about this method
       response->setStatus(501);
     }
-  } catch (ClientError ce) {
+  } catch (ClientError &ce) {
     response->setStatus(ce.status_code);
   } catch (...) {
     // reset the response object and return an error
