@@ -25,9 +25,15 @@ class HTTP {
     bool isConnect() {return m_method == HTTP_CONNECT;}
     bool isHead() {return m_method == HTTP_HEAD;}
     bool isGet() {return m_method == HTTP_GET;}
+    bool isPut() {return m_method == HTTP_PUT;}
+    bool isPost() {return m_method == HTTP_POST;}
+    bool isDelete() {return m_method == HTTP_DELETE;}
     std::string getBody();
     std::string getQuery() {return m_query;}
-
+    std::vector< std::pair< std::string *, std::string *> > getHeaders() {
+      return m_headers;
+    }
+  
  private:
     static int message_begin_cb(http_parser *parser);
     static int path_cb(http_parser *parser, const char *at, size_t length);

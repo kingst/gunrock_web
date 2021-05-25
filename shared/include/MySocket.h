@@ -51,9 +51,10 @@ class MySocket {
 
   virtual std::string read();
   virtual void write(std::string data);
-  void close(void);
-
+  virtual void close(void);
+  
  protected:
+  void call_connect(const char *inetAddr, int port);
   void write_bytes(const void *buffer, int len);
   int sockFd;
 };

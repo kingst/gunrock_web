@@ -8,6 +8,7 @@
 #include <string>
 
 #include "FileService.h"
+#include "ClientError.h"
 
 using namespace std;
 
@@ -24,10 +25,6 @@ FileService::FileService(string basedir) : HttpService("/") {
   this->m_basedir = basedir;
 }
 
-FileService::~FileService() {
-
-}
-
 bool FileService::endswith(string str, string suffix) {
   size_t pos = str.rfind(suffix);
   return pos == (str.length() - suffix.length());
@@ -37,7 +34,7 @@ void FileService::get(HTTPRequest *request, HTTPResponse *response) {
   string path = this->m_basedir + request->getPath();
   string fileContents = this->readFile(path);
   if (fileContents.size() == 0) {
-    response->setStatus(404);
+    throw ClientError::notFound();
   } else {
     if (this->endswith(path, ".css")) {
       response->setContentType("text/css");

@@ -7,9 +7,15 @@
 #include <netinet/in.h>
 #include <string>
 
+#include <iostream>
+
 using namespace std;
 
 MySocket::MySocket(const char *inetAddr, int port) {
+  call_connect(inetAddr, port);
+}
+
+void MySocket::call_connect(const char *inetAddr, int port) {
     struct sockaddr_in server;
     struct addrinfo hints;
     struct addrinfo *res;
@@ -37,8 +43,8 @@ MySocket::MySocket(const char *inetAddr, int port) {
                 sizeof(server)) == -1 ) {
         throw SocketError("Did not connect to the server");
     }
-    
 }
+
 MySocket::MySocket(void) {
     sockFd = -1;
 }
