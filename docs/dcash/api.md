@@ -94,9 +94,10 @@ need to be authenticated.
 | username | The username, must contain only lowercase letters |
 | password | The password                                      |
 
-_Note:_ Clients will base64 encode their passwords but on the server
-you don't need to worry about it -- just check to make sure that it
-matches whatever the client sent you when they created the account.
+_Note:_ Clients will pass their passwords without encryption directly
+to our server. We don't need to worry about any sort of obfuscation
+for this assignment just checking that the passwords match is
+sufficient.
 
 #### Response object
 
