@@ -52,7 +52,7 @@ On success, the command should print the user's balance like this:
 
 ```bash
 D$ auth kingst 123456 kingst@ucdavis.edu
-Balance: ${balance_in_dollars}
+Balance: $0.00
 D$
 ```
 
@@ -72,7 +72,7 @@ On success, the command should print the user's balance like this:
 
 ```bash
 D$ deposit 20.00 4242424242424242 04 24 242
-Balance: ${balance_in_dollars}
+Balance: $20.00
 D$
 ```
 
@@ -90,7 +90,7 @@ On success, the command should print the user's balance like this:
 
 ```bash
 D$ send honey 5.00
-Balance: ${balance_in_dollars}
+Balance: $15.00
 D$
 ```
 
