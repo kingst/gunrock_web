@@ -11,7 +11,7 @@ of four commands:
 | send    | Sends money to another user                                   |
 | logout  | Deletes the auth token and exits the program                  | 
 
-## Invoking the dcash process
+## Invoking the dcash program
 
 The wallet can be invoked with either no arguments or a single argument;
 anything else is an error. Here is the no-argument way:
