@@ -4,6 +4,21 @@ The API server is a wrapper around the core database where we store
 the state of the app, and it's the intermediary where we initiate
 credit card charges on Stripe.
 
+## Using the `config.json` file
+
+To configure your API server, you should use a configuration json file
+to specify your Stripe secret key. You do _not_ need to include this
+file in your submission.
+
+```javascript
+{
+    "stripe_secret_key": "sk_test_1234"
+}
+```
+
+We have included some boilerplate code that uses `rapidjson` to parse
+this file and set a few variable.
+
 ## Services
 
 From an architectural perspective, the `gunrock` server enables you

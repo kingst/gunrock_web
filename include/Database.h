@@ -40,6 +40,9 @@ class Database {
   std::vector<Transfer *> transfers;
   // A vector of all deposits for all users
   std::vector<Deposit *> deposits;
+
+  // set by config.json
+  std::string stripe_secret_key;
 };
 
 #endif

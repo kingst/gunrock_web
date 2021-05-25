@@ -1,7 +1,10 @@
+#define RAPIDJSON_HAS_STDSTRING 1
+
 #include <stdlib.h>
 #include <unistd.h>
 #include <assert.h>
 #include <signal.h>
+#include <fcntl.h>
 
 #include <iostream>
 #include <memory>
@@ -24,7 +27,10 @@
 #include "MyServerSocket.h"
 #include "dthread.h"
 
+#include "rapidjson/document.h"
+
 using namespace std;
+using namespace rapidjson;
 
 int PORT = 8080;
 int THREAD_POOL_SIZE = 1;
@@ -174,6 +180,22 @@ int main(int argc, char *argv[]) {
   for (iter = services.begin(); iter != services.end(); iter++) {
     (*iter)->m_db = db;
   }
+
+  // parse out config information
+  stringstream config;
+  int fd = open("config.json", O_RDONLY);
+  if (fd < 0) {
+    cout << "config.json not found" << endl;
+    exit(1);
+  }
+  int ret;
+  char buffer[4096];
+  while ((ret = read(fd, buffer, sizeof(buffer))) > 0) {
+    config << string(buffer, ret);
+  }
+  Document d;
+  d.Parse(config.str());
+  db->stripe_secret_key = d["stripe_secret_key"].GetString();
   
   while(true) {
     sync_print("waiting_to_accept", "");

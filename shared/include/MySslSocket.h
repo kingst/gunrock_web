@@ -7,7 +7,7 @@
 
 class MySslSocket: public MySocket {
  public:
-  /*
+  /**
    * this is the constructor.  It accepts a string representation of
    * and ip address ("192.168.0.1") or domain name ("www.cs.ucdavis.edu")
    * and connects.  Will throw an HostNotFound exception if the attepted
@@ -15,8 +15,9 @@ class MySslSocket: public MySocket {
    *
    * @param inetAddr either ip address, or the domain name
    * @param port the port to connect to
+   * @param debug_print_io print the cleartext I/O on this socket
    */
-  MySslSocket(const char *inetAddr, int port);
+  MySslSocket(const char *inetAddr, int port, bool debug_print_io=false);
 
   std::string read();
   void write(std::string data);
@@ -25,6 +26,7 @@ class MySslSocket: public MySocket {
  protected:
   SSL_CTX *ctx;
   SSL *ssl;
+  bool debug_print_io;
 };
 
 #endif

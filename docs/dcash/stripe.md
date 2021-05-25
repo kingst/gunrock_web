@@ -47,11 +47,9 @@ Stripe's API calls rely on authentication to process requests. You
 will use your `publishable key` from the client to perform
 tokenization and your `secret key` server side to charge the card.
 
-_Note:_ As a general rule of thumb it's considered poor programming
-practice to hard-code your authentication credentials within the
-source code of your app. However, to keep things simple you can (and
-we encourage you to) do exactly this: hardcode the keys in your source
-code.
+Both of these keys should be in your `config.json` file for your API
+server and your wallet. Please see the docs for both of these
+applications for more details.
 
 ### Authenticating from the `dcash` wallet
 
@@ -60,9 +58,8 @@ key`:
 
 ```c++
 // from the dcash wallet to Stripe
-string publishable_key = "pk_test_YOUR_KEY";
 HttpClient client("api.stripe.com", 443, true);
-client.set_header("Authorization", string("Bearer ") + publishable_key);
+client.set_header("Authorization", string("Bearer ") + PUBLISHABLE_KEY);
 ```
 
 And with this type of authentication you can tokenize cards from the
@@ -77,9 +74,8 @@ the implementation details of basic authentication:
 
 ```c++
 // from the gunrock server to Stripe
-string secret_key = "sk_test_YOUR_KEY";
 HttpClient client("api.stripe.com", 443, true);
-client.set_basic_auth(secret_key, "");
+client.set_basic_auth(m_db->stripe_secret_key, "");
 ```
 
 ## Interpreting results

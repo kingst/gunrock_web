@@ -2,14 +2,20 @@
 
 The dcash wallet is a C++ program that uses standard in and standard
 out for I/O. For the prompt, we'll use `D$>` and clients can issue one
-of four commands:
+of five commands:
 
-| Command | Description                                                   |
-|---------|---------------------------------------------------------------|
-| auth    | Authenticates the user, saving the auth token for future APIs |
-| deposit | Desposits money into the current user's account               |
-| send    | Sends money to another user                                   |
-| logout  | Deletes the auth token and exits the program                  | 
+- [auth](#the-auth-command) Authenticates the user, saving the
+  `auth_token` and `user_id` for future APIs
+
+- [balance](#the-balance-command) Shows the current user's balance
+
+- [deposit](#the-deposit-command) Desposits money into the current
+  user's account
+
+- [send](#the-send-command) Sends money to another user
+
+- [logout](#the-logout-command) Deletes the auth token and exits the
+  program
 
 Conceptually, you should view the wallet application as a thin UI layer for
 the API server. The only state that wallet needs to store across commands
@@ -40,6 +46,24 @@ prompt> ./dcash batch.txt
 
 One difference between batch and interactive modes: in interactive mode,
 a prompt is printed (`D$>`). In batch mode, no prompt should be printed.
+
+## Using the `config.json` file
+
+To configure your wallet, you should use a configuration json file
+that stores the API server's host and port, plus your Stripe
+publishable key. You do _not_ need to include this file in your
+submission.
+
+```javascript
+{
+    "api_server_port": 8080,
+    "api_server_host": "localhost",
+    "stripe_publishable_key": "pk_test_1234"
+}
+```
+
+We have included some boilerplate code that uses `rapidjson` to parse
+this file and set a few variable.
 
 ## Command and API errors
 
@@ -89,6 +113,25 @@ D$>
 _Note:_ The server always operates in cents, so you'll need to convert
 the balance to dollars.
 
+## The `balance` command
+
+```bash
+D$> balance
+```
+
+The balance command displays the current balance for this user. It is
+important that you _not_ cache the balance locally, you must make an
+API call to fetch the latest balance for this user from the API
+server.
+
+On success, the command should print the user's balance like this:
+
+```bash
+D$> balance
+Balance: $20.00
+D$>
+```
+
 ## The `deposit` command
 
 ```bash
@@ -132,3 +175,21 @@ D$> logout
 
 This command deletes the current `auth_token` from the server, and
 exits the `dcash` wallet process.
+
+## An example `dcash` session
+
+```bash
+D$> auth honey 123 honey@ucdavis.edu
+Balance: $0.00
+D$> auth kingst 123 kingst@ucdavis.edu
+Balance: $0.00
+D$> deposit 25.00 4242424242424242 2024 02 322
+Balance: $25.00
+D$> send honey 5.00
+Balance: $20.00
+D$> auth honey 123 honey@ucdavis.edu
+Balance: $5.00
+D$> balance
+Balance: $5.00
+D$> logout
+```

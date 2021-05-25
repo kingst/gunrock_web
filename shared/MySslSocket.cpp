@@ -27,7 +27,8 @@ void handleFailure() {
   throw SocketError("SSL call failure");
 }
 
-MySslSocket::MySslSocket(const char *inetAddr, int port) {
+MySslSocket::MySslSocket(const char *inetAddr, int port, bool debug_print_io) {
+  this->debug_print_io = debug_print_io;
   ctx = NULL;
   ssl = NULL;
   int res;
@@ -57,6 +58,12 @@ void MySslSocket::write(string buffer) {
     throw SocketNotConnected();
   }
 
+  if (debug_print_io) {
+    cout << "MySslSocket::write" << endl;
+    cout << "------------------" << endl;
+    cout << buffer << endl << endl;
+  }
+
   while(len > 0) {
     bytesWritten = SSL_write(ssl, buf, len);
     if(bytesWritten <= 0) {
@@ -79,7 +86,15 @@ string MySslSocket::read() {
     throw SocketReadError();
   }
 
-  return string(buffer, ret);
+  string result = string(buffer, ret);
+  
+  if (debug_print_io) {
+    cout << "MySslSocket::read" << endl;
+    cout << "-----------------" << endl;
+    cout << result << endl << endl;
+  }
+  
+  return result;
 }
 
 void MySslSocket::close() {

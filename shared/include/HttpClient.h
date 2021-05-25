@@ -61,6 +61,29 @@ class HttpClient {
   HTTPClientResponse *post(std::string path, std::string body);
 
   /**
+   * HTTP PUT request
+   *
+   * Makes a network call using the HTTP PUT method.
+   *
+   * @param path the API endpoint that you want to connect to
+   * @param body the message body to include along with the POST
+   * @return HTTPClientResponse a pointer to a client response
+   *         object, hydrated from the API server.
+   */
+  HTTPClientResponse *put(std::string path, std::string body);
+
+  /**
+   * HTTP DELETE request
+   *
+   * Makes a network call using the HTTP DELETE method.
+   *
+   * @param path the API endpoint that you want to connect to
+   * @return HTTPClientResponse a pointer to a client response
+   *         object, hydrated from the API server.
+   */
+  HTTPClientResponse *del(std::string path);
+
+  /**
    * Set a header key/value pair
    *
    * Set a header value _before_ you issue a get or post request and

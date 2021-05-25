@@ -81,3 +81,13 @@ HTTPClientResponse *HttpClient::post(string path, string body) {
   write_request(path, "POST", body);
   return read_response();
 }
+
+HTTPClientResponse *HttpClient::put(string path, string body) {
+  write_request(path, "PUT", body);
+  return read_response();
+}
+
+HTTPClientResponse *HttpClient::del(string path) {
+  write_request(path, "DELETE", "");
+  return read_response();
+}
