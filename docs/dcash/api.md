@@ -216,7 +216,7 @@ tokens](https://stripe.com/docs/testing#cards), (e.g., `tok_visa` and
 #### Deposit object
 
 Your response includes a history of all deposits for this user, each
-element in the array is `depost` object:
+element in the array is `deposit` object:
 
 | Key              | Description                                      |
 |------------------|--------------------------------------------------|
