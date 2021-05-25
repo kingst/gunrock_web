@@ -187,12 +187,6 @@ is in each transfer object:
 | to     | (String) the username of the user who recv the transfer |
 | amount | (Int) The amount of the transfer in cents               |
 
-### GET `/transfers`
-
-This method returns all transfers for the currently logged in
-user. The return value is identical to the [POST
-/transfers](#post-transfers) endpoint.
-
 ### POST `/deposits`
 
 Uses a credit card to deposit money into your account. For testing
@@ -228,12 +222,6 @@ element in the array is `deposit` object:
 _Note:_ To service this request you'll need to send an API request to
 Stripe. You should block this API call while you wait for a response
 from Stripe.
-
-### GET `/deposits`
-
-This method returns all deposits for the currently logged in user. The
-return value is identical to the [POST /deposits](#post-deposits)
-endpoint.
 
 ## An example using curl
 
