@@ -84,6 +84,14 @@ that you're responsible for implementing.
 For these services, you must implement the base-class method `User *HttpService::getAuthenticatedUser(HTTPRequest *)`
 and use this method for all of your API calls that require authentication.
 
+## Reading request arguments
+
+To read request arguments, we recomment using the `formEncodedBody`
+method on the `HTTPRequest` object that you get with each method
+handler. This method returns a `WwwFormEncodedDict` object that
+parses form-encoded bodies and provides access to the keys and
+values that it parses.
+
 ## Helpful utilities
 
 Some helpful utilities include:
