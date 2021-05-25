@@ -16,7 +16,7 @@ registered with that prefix. Services inhert from the base
 function.
 
 When `gunrock` invokes one of your service's HTTP method handlers, it
-passes in two areguments: a `HTTPRequest` object and a `HTTPResponse`
+passes in two arguments: a `HTTPRequest` object and a `HTTPResponse`
 object. The `HTTPRequest` is a C++ class that includes the parsed HTTP
 request data, including the headers and message body. The
 `HTTPResponse` object is initialized with an empty body and with a
