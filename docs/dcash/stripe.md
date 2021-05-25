@@ -100,7 +100,7 @@ HTTPClientResponse *client_response = client.post("/v1/charges",
                                                   body);
 // This method converts the HTTP body into a rapidjson document
 Document *d = client_response->jsonBody();
-string value = d["foo"].GetString();
+string value = (*d)["foo"].GetString();
 delete d;
 ```
 
