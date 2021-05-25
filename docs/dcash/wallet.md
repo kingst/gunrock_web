@@ -33,7 +33,7 @@ prompt> ./dcash batch.txt
 ```
 
 One difference between batch and interactive modes: in interactive mode,
-a prompt is printed (D$). In batch mode, no prompt should be printed.
+a prompt is printed (`D$`). In batch mode, no prompt should be printed.
 
 ## Command and API errors
 
