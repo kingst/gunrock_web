@@ -86,7 +86,7 @@ and use this method for all of your API calls that require authentication.
 
 ## Reading request arguments
 
-To read request arguments, we recomment using the `formEncodedBody`
+To read request arguments, we recommend using the `formEncodedBody`
 method on the `HTTPRequest` object that you get with each method
 handler. This method returns a `WwwFormEncodedDict` object that
 parses form-encoded bodies and provides access to the keys and
