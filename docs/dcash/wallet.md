@@ -95,7 +95,7 @@ the specified amount into their account.
 On success, the command should print the user's balance like this:
 
 ```bash
-D$ deposit 20.00 4242424242424242 04 24 242
+D$ deposit 20.00 4242424242424242 2024 05 242
 Balance: $20.00
 D$
 ```
