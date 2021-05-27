@@ -82,6 +82,9 @@ Error
 D$>
 ```
 
+Additionally, if the user enters an invalid command, then the wallet
+should return a line with the string "Error".
+
 ## The `auth` command
 
 ```bash
