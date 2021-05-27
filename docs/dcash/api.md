@@ -88,8 +88,8 @@ with the authenticated account, and you should only be able to delete
 `auth_token` objects for the user who is currently logged in.
 
 The one exception to operating exclusively on the current user's data
-is when you transfer funds your transfer APIs will increase the balance
-for another user as a part of your implementation.
+is when you transfer funds, your transfer API implementation will
+increase the balance for another user as a part of your implementation.
 
 ### POST `/auth-tokens`
 
