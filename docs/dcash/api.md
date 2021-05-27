@@ -210,7 +210,7 @@ tokens](https://stripe.com/docs/testing#cards), (e.g., `tok_visa` and
 
 | Argument     | Description                                      |
 |--------------|--------------------------------------------------|
-| amount       | The amount to charge, in cents                   |
+| amount       | The amount to charge, in cents (must be >= 50)   |
 | stripe_token | The Stripe token for the card you want to charge |
 
 #### Response object
