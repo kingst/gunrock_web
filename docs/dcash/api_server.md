@@ -49,13 +49,30 @@ Document document;
 Document::AllocatorType& a = document.GetAllocator();
 Value o;
 o.SetObject();
-o.AddMember("foo", "bar", a);
+
+// add a key value pair directly to the object
+o.AddMember("key1", "value1", a);
+
+// create an array
+Value array;
+array.SetArray();
+
+// add an object to our array
+Value to;
+to.SetObject();
+to.AddMember("key2", "value2", a);
+array.PushBack(to, a);
+
+// and add the array to our return object
+o.AddMember("array_key", array, a);
+
+// now some rapidjson boilerplate for converting the JSON object to a string
 document.Swap(o);
 StringBuffer buffer;
 PrettyWriter<StringBuffer> writer(buffer);
 document.Accept(writer);
 
-// fill the response object body and content type
+// set the return object
 response->setContentType("application/json");
 response->setBody(buffer.GetString() + string("\n"));
 ```
