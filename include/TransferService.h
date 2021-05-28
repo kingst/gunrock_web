@@ -10,7 +10,6 @@ class TransferService : public HttpService {
  public:
   TransferService();
   virtual void post(HTTPRequest *request, HTTPResponse *response);
-  virtual void get(HTTPRequest *request, HTTPResponse *response);
 };
 
 #endif

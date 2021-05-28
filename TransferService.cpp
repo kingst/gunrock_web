@@ -27,7 +27,3 @@ TransferService::TransferService() : HttpService("/transfers") { }
 void TransferService::post(HTTPRequest *request, HTTPResponse *response) {
 
 }
-
-void TransferService::get(HTTPRequest *request, HTTPResponse *response) {
-
-}

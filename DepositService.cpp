@@ -29,7 +29,3 @@ DepositService::DepositService() : HttpService("/deposits") { }
 void DepositService::post(HTTPRequest *request, HTTPResponse *response) {
 
 }
-
-void DepositService::get(HTTPRequest *request, HTTPResponse *response) {
-
-}

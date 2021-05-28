@@ -10,7 +10,6 @@ class DepositService : public HttpService {
  public:
   DepositService();
   virtual void post(HTTPRequest *request, HTTPResponse *response);
-  virtual void get(HTTPRequest *request, HTTPResponse *response);
 };
 
 #endif
