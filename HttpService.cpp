@@ -12,11 +12,6 @@ HttpService::HttpService(string pathPrefix) {
   this->m_pathPrefix = pathPrefix;
 }
 
-User *HttpService::getAuthenticatedUser(HTTPRequest *request)  {
-  // TODO: implement this function
-  return NULL;
-}
-
 string HttpService::pathPrefix() {
   return m_pathPrefix;
 }
@@ -43,6 +38,11 @@ void HttpService::post(HTTPRequest *request, HTTPResponse *response) {
 
 void HttpService::del(HTTPRequest *request, HTTPResponse *response) {
   cout << "DELETE " << request->getPath() << endl;
+  throw ClientError::methodNotAllowed();
+}
+
+void HttpService::move(HTTPRequest *request, HTTPResponse *response) {
+  cout << "MOVE " << request->getPath() << endl;
   throw ClientError::methodNotAllowed();
 }
 

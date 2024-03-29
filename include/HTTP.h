@@ -28,6 +28,7 @@ class HTTP {
     bool isPut() {return m_method == HTTP_PUT;}
     bool isPost() {return m_method == HTTP_POST;}
     bool isDelete() {return m_method == HTTP_DELETE;}
+    bool isMove() {return m_method == HTTP_MOVE;}
     std::string getBody();
     std::string getQuery() {return m_query;}
     std::vector< std::pair< std::string *, std::string *> > getHeaders() {

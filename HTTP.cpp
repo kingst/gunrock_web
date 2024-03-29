@@ -83,7 +83,7 @@ int HTTP::headers_complete_cb(http_parser *parser)
 
     if(http->m_httpType == HTTP_RESPONSE) {
         char buf[64];
-        sprintf(buf, "HTTP/%u.%u %u ", parser->http_major, parser->http_minor, parser->status_code);
+        snprintf(buf, 63, "HTTP/%u.%u %u ", parser->http_major, parser->http_minor, parser->status_code);
         http->m_statusStr = buf;
         if(parser->status_code == 200) {
             http->m_statusStr += "OK";
@@ -388,7 +388,7 @@ void HTTP::appendHeaderValue(const char *at, size_t len)
 void HTTP::messageComplete(unsigned char method)
 {
     if(m_httpType == HTTP_REQUEST) {
-      assert((method == HTTP_GET) || (method == HTTP_CONNECT) || (method == HTTP_POST) || (method == HTTP_HEAD) || (method == HTTP_PUT) || (method == HTTP_DELETE));
+      assert((method == HTTP_GET) || (method == HTTP_CONNECT) || (method == HTTP_POST) || (method == HTTP_HEAD) || (method == HTTP_PUT) || (method == HTTP_DELETE) || (method == HTTP_MOVE));
         m_method = method;
     }
     m_doneParsing = true;

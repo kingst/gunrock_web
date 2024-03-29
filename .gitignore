@@ -1,6 +1,5 @@
 # our main executable
 gunrock_web
-config.json
 
 # Prerequisites
 *.d
@@ -34,8 +33,3 @@ config.json
 *.exe
 *.out
 *.app
-
-# editor setting files
-.vscode
-playground
-

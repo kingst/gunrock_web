@@ -26,7 +26,7 @@ MyServerSocket::MyServerSocket(int port)
     
     if( bind(serverFd,(struct sockaddr *) &server, sizeof(server)) ==-1){
         char str[1024];
-        sprintf(str,"could not bind to port %d",port);
+        snprintf(str, 1023, "could not bind to port %d",port);
         throw SocketError(str);
     }	
     

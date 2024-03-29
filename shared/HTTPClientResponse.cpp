@@ -1,5 +1,3 @@
-#define RAPIDJSON_HAS_STDSTRING 1
-
 #include "HTTPClientResponse.h"
 
 #include <iostream>
@@ -11,19 +9,10 @@
 #include <sstream>
 
 using namespace std;
-using namespace rapidjson;
 
 HTTPClientResponse::HTTPClientResponse(MySocket *sock) {
     m_sock = sock;
     m_status_code = 0;
-}
-
-Document *HTTPClientResponse::jsonBody() {
-  string json = body();
-  Document *d = new Document();
-  d->Parse(json);
-  assert(d->IsObject());
-  return d;
 }
 
 

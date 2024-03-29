@@ -1,11 +1,11 @@
 all: gunrock_web
 
 CC = g++
-CFLAGS = -g -Werror -Wall -I include -I shared/include -I/usr/local/opt/openssl@1.1/include
-LDFLAGS = -L/usr/local/opt/openssl@1.1/lib -lssl -lcrypto -pthread
+CFLAGS = -g -Werror -Wall -I include -I shared/include -I/usr/local/opt/openssl@1.1/include -I/opt/homebrew/Cellar/openssl@3/3.2.1/include
+LDFLAGS = -L /opt/homebrew/Cellar/openssl@3/3.2.1/lib -lssl -lcrypto -pthread
 VPATH = shared
 
-OBJS = gunrock.o MyServerSocket.o MySocket.o HTTPRequest.o HTTPResponse.o http_parser.o HTTP.o HttpService.o HttpUtils.o AccountService.o FileService.o TransferService.o dthread.o WwwFormEncodedDict.o StringUtils.o Base64.o AuthService.o DepositService.o HttpClient.o HTTPClientResponse.o MySslSocket.o
+OBJS = gunrock.o MyServerSocket.o MySocket.o HTTPRequest.o HTTPResponse.o http_parser.o HTTP.o HttpService.o HttpUtils.o FileService.o dthread.o WwwFormEncodedDict.o StringUtils.o Base64.o HttpClient.o HTTPClientResponse.o MySslSocket.o
 
 -include $(OBJS:.o=.d)
 

@@ -11,6 +11,9 @@ class FileService : public HttpService {
 
   virtual void get(HTTPRequest *request, HTTPResponse *response);
   virtual void head(HTTPRequest *request, HTTPResponse *response);
+  virtual void put(HTTPRequest *request, HTTPResponse *response);
+  virtual void del(HTTPRequest *request, HTTPResponse *response);
+  virtual void move(HTTPRequest *request, HTTPResponse *response);
 
 private:
   bool endswith(std::string str, std::string suffix);

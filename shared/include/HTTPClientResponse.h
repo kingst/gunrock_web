@@ -3,8 +3,6 @@
 
 #include "MySocket.h"
 
-#include "rapidjson/document.h"
-
 #include <map>
 #include <string>
 
@@ -15,8 +13,6 @@ class HTTPClientResponse {
   int status() { return m_status_code; }
   bool success() { return m_status_code >= 200 && m_status_code < 300; }
   std::string body() { return m_body; }
-  // make sure to free the document after you're done with it
-  rapidjson::Document *jsonBody();
   
  protected:
   MySocket *m_sock;

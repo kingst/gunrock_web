@@ -1,5 +1,3 @@
-#define RAPIDJSON_HAS_STDSTRING 1
-
 #include <stdlib.h>
 #include <unistd.h>
 #include <assert.h>
@@ -18,24 +16,17 @@
 #include "HTTPResponse.h"
 #include "HttpService.h"
 #include "HttpUtils.h"
-#include "AccountService.h"
-#include "AuthService.h"
-#include "DepositService.h"
 #include "FileService.h"
-#include "TransferService.h"
 #include "MySocket.h"
 #include "MyServerSocket.h"
 #include "dthread.h"
 
-#include "rapidjson/document.h"
-
 using namespace std;
-using namespace rapidjson;
 
 int PORT = 8080;
 int THREAD_POOL_SIZE = 1;
 int BUFFER_SIZE = 1;
-string BASEDIR = "static";
+string BASEDIR = "ds3";
 string SCHEDALG = "FIFO";
 string LOGFILE = "/dev/null";
 
@@ -71,6 +62,8 @@ void invoke_service_method(HttpService *service, HTTPRequest *request, HTTPRespo
       service->post(request, response);
     } else if (request->isDelete()) {
       service->del(request, response);
+    } else if (request->isMove()) {
+      service->move(request, response);
     } else {
       // The server doesn't know about this method
       response->setStatus(501);
@@ -161,41 +154,15 @@ int main(int argc, char *argv[]) {
 
   set_log_file(LOGFILE);
 
+  cout << "Lisening on port " << PORT << endl;
+  
   sync_print("init", "");
   MyServerSocket *server = new MyServerSocket(PORT);
   MySocket *client;
 
   // The order that you push services dictates the search order
   // for path prefix matching
-  services.push_back(new AuthService());
-  services.push_back(new TransferService());
-  services.push_back(new DepositService());
-  services.push_back(new AccountService());
   services.push_back(new FileService(BASEDIR));
-
-  // Make sure that all services have a pointer to the
-  // database object singleton
-  Database *db = new Database();
-  vector<HttpService *>::iterator iter;
-  for (iter = services.begin(); iter != services.end(); iter++) {
-    (*iter)->m_db = db;
-  }
-
-  // parse out config information
-  stringstream config;
-  int fd = open("config.json", O_RDONLY);
-  if (fd < 0) {
-    cout << "config.json not found" << endl;
-    exit(1);
-  }
-  int ret;
-  char buffer[4096];
-  while ((ret = read(fd, buffer, sizeof(buffer))) > 0) {
-    config << string(buffer, ret);
-  }
-  Document d;
-  d.Parse(config.str());
-  db->stripe_secret_key = d["stripe_secret_key"].GetString();
   
   while(true) {
     sync_print("waiting_to_accept", "");

@@ -33,6 +33,7 @@ public:
   bool isPut() {return m_http->isPut();}
   bool isPost() {return m_http->isPost();}
   bool isDelete() {return m_http->isDelete();}
+  bool isMove() {return m_http->isMove();}
   std::map<std::string, std::string> getParams();
   WwwFormEncodedDict formEncodedBody();
   std::string getBody() {return m_http->getBody();}
