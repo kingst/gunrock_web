@@ -1,22 +1,13 @@
-# Gunrock Concurrent Web Server
+# Gunrock Web Server
+This web server is a simple server used in ECS 150 for teaching about multi-threaded programming and operating systems. This version of the server can only handle one client at a time and simply serves static files. Also, it will close each connection after reading the request and responding, but generally is still HTTP 1.1 compliant.
 
-This web server is a simple server used in ECS 150 for teaching about
-multi-threaded programming and operating systems. This version of the
-server can only handle one client at a time and simply serves static
-files. Also, it will close each connection after reading the request
-and responding, but generally is still HTTP 1.1 compliant.
-
-This server was written by Sam King from UC Davis and is actively
-maintained by Sam as well. The `http_parse.c` file was written by
-[Ryan Dahl](https://github.com/ry) and is licensed under the BSD
-license by Ryan. This programming assignment is from the
-[OSTEP](http://ostep.org) textbook (tip of the hat to the authors for
-writing an amazing textbook).
+This server was written by Sam King from UC Davis and is actively maintained by Sam as well. The `http_parse.c` file was written by [Ryan Dahl](https://github.com/ry) and is licensed under the BSD license by Ryan. This programming assignment is from the [OSTEP](http://ostep.org) textbook (tip of the hat to the authors for writing an amazing textbook).
 
 # Quickstart
 To compile and run the server, open a terminal and execute the following commands:
 ```bash
-$ cd project3
+$ git clone https://github.com/kingst/gunrock_web.git
+$ cd gunrock_web
 $ make
 $ ./gunrock_web
 ```
@@ -214,11 +205,11 @@ waiting for new HTTP requests to arrive; if there are more requests than
 worker threads, then those requests will need to be buffered until there is a
 ready thread.
 
-In your implementation, you must have a main thread that begins by creating
+In your implementation, you must have a master thread that begins by creating
 a pool of worker threads, the number of which is specified on the command
-line. Your main thread is then responsible for accepting new HTTP
+line. Your master thread is then responsible for accepting new HTTP
 connections over the network and placing the descriptor for this connection
-into a fixed-size buffer; in your implementation, the main thread
+into a fixed-size buffer; in your implementation, the master thread
 should not read from this connection. The number of elements in the buffer is
 also specified on the command line. Note that the existing web server has a
 single thread that accepts a connection and then immediately handles the
@@ -234,9 +225,9 @@ reading the static file or executing the CGI process), and then returns the
 content to the client by writing to the descriptor. The worker thread then
 waits for another HTTP request.
 
-Note that the main thread and the worker threads are in a producer-consumer
+Note that the master thread and the worker threads are in a producer-consumer
 relationship and require that their accesses to the shared buffer be
-synchronized. Specifically, the main thread must block and wait if the
+synchronized. Specifically, the master thread must block and wait if the
 buffer is full; a worker thread must wait if the buffer is empty. In this
 project, you are required to use condition variables. Note: if your
 implementation performs any busy-waiting (or spin-waiting) instead, you will
@@ -342,13 +333,7 @@ To make this server multithreaded, you're going to need to modify the main `gunr
 - **MySocket** - High level abstraction on top of sockets, used by the framework to read requests and write responses
 
 ## Autograding
+We aren't providing test cases for this project, so an important part of the project is developing your own test cases. We'll try to give descriptive text that explains what an autograded test case tests, but it won't be perfect. Our suggestion is to invest in an extensive test suite that you write yourself to exercise your server.
 
-We aren't providing test cases for this project, so an important part
-of the project is developing your own test cases. We'll try to give
-descriptive text that explains what an autograded test case tests, but
-it won't be perfect. Our suggestion is to invest in an extensive test
-suite that you write yourself to exercise your server.
-
-When you submit your project via gradescope, you will turn in two
-files: `gunrock.cpp` and `FileService.cpp`.
+When you submit your project via gradescope, you will turn in two files: `gunrock.cpp` and `FileService.cpp`.
 
