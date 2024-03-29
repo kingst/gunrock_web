@@ -17,6 +17,7 @@
 #include "HttpService.h"
 #include "HttpUtils.h"
 #include "FileService.h"
+#include "DistributedFileSystemService.h"
 #include "MySocket.h"
 #include "MyServerSocket.h"
 #include "dthread.h"
@@ -29,6 +30,7 @@ int BUFFER_SIZE = 1;
 string BASEDIR = "ds3";
 string SCHEDALG = "FIFO";
 string LOGFILE = "/dev/null";
+string DISKFILE = "disk.img";
 
 vector<HttpService *> services;
 
@@ -126,7 +128,7 @@ int main(int argc, char *argv[]) {
   signal(SIGPIPE, SIG_IGN);
   int option;
 
-  while ((option = getopt(argc, argv, "d:p:t:b:s:l:")) != -1) {
+  while ((option = getopt(argc, argv, "d:p:t:b:s:l:i:")) != -1) {
     switch (option) {
     case 'd':
       BASEDIR = string(optarg);
@@ -146,8 +148,11 @@ int main(int argc, char *argv[]) {
     case 'l':
       LOGFILE = string(optarg);
       break;
+    case 'i':
+      DISKFILE = string(optarg);
+      break;
     default:
-      cerr<< "usage: " << argv[0] << " [-p port] [-t threads] [-b buffers]" << endl;
+      cerr<< "usage: " << argv[0] << " [-p port] [-t threads] [-b buffers] [-i diskFile]" << endl;
       exit(1);
     }
   }
@@ -162,6 +167,7 @@ int main(int argc, char *argv[]) {
 
   // The order that you push services dictates the search order
   // for path prefix matching
+  services.push_back(new DistributedFileSystemService(DISKFILE));
   services.push_back(new FileService(BASEDIR));
   
   while(true) {

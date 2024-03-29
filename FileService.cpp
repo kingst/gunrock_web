@@ -68,13 +68,3 @@ void FileService::head(HTTPRequest *request, HTTPResponse *response) {
   this->get(request, response);
   response->setBody("");
 }
-
-void FileService::put(HTTPRequest *request, HTTPResponse *response) {
-  response->setBody("");
-}
-void FileService::del(HTTPRequest *request, HTTPResponse *response) {
-  response->setBody("");
-}
-void FileService::move(HTTPRequest *request, HTTPResponse *response) {
-  response->setBody("");
-}
